@@ -1,4 +1,4 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -13,8 +13,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "roles")
-public class Role {
+@Table(name = "worker_roles")
+public class WorkerRole {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,6 +23,6 @@ public class Role {
     @Column(nullable = false,unique = true)
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "workerRoles")
     private List<Worker> workers;
 }

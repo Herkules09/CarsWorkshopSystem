@@ -1,5 +1,6 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
+import com.example.CarsWorkshopSystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,8 +46,8 @@ public class Worker {
     @JoinTable(
             name = "workers_roles",
             joinColumns = {@JoinColumn(name = "worker_id",referencedColumnName = "id")},
-            inverseJoinColumns = {@JoinColumn(name = "role_id",referencedColumnName = "id")})
-    private List<Role> roles = new ArrayList<>();
+            inverseJoinColumns = {@JoinColumn(name = "worker_role_id",referencedColumnName = "id")})
+    private List<WorkerRole> workerRoles = new ArrayList<>();
     @OneToMany(mappedBy = "worker")
     private List<Protocol>protocols;
     @OneToOne(mappedBy = "manager")
@@ -56,6 +57,10 @@ public class Worker {
     @ManyToOne
     @JoinColumn(name = "car_repair_center_id")
     private CarRepairCenter workingCarRepairCenter;
+    @OneToOne(mappedBy = "worker")
+    private Account account;
+    @Enumerated(EnumType.STRING)
+    private Role role = Role.WORKER;
 
 
 }

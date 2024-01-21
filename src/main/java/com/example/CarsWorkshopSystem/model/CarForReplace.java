@@ -1,4 +1,4 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

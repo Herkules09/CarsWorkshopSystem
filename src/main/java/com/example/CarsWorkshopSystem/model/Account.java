@@ -1,10 +1,7 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
@@ -23,5 +20,8 @@ public class Account {
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "client_id",referencedColumnName = "id")
     private Client client;
+    @OneToOne
+    @JoinColumn(name = "worker_id",referencedColumnName = "id")
+    private Worker worker;
 
 }

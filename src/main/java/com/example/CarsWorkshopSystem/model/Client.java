@@ -1,5 +1,6 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
+import com.example.CarsWorkshopSystem.enums.Role;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,11 +34,15 @@ public class Client {
     @Column(nullable = false)
     private String address;
     private String historyOfOrders;
+    private String password;
     private boolean isClientLogin; // ? czy to konieczne
     @OneToOne(mappedBy = "client")
     private Account account;
     @OneToMany(cascade = CascadeType.ALL,mappedBy = "client")
     private List<Protocol> protocols;
+    @Enumerated(EnumType.STRING)
+    private Role role=Role.CLIENT;
+
 
 
     public Client(String name, String surname, String email, String phoneNumber, LocalDate dateOfBirth, String address) {

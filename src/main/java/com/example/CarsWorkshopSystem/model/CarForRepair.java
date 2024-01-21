@@ -1,6 +1,5 @@
-package com.example.CarsWorkshopSystem.entity;
+package com.example.CarsWorkshopSystem.model;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -14,13 +13,13 @@ import lombok.Setter;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-public class CarForRent extends Car{
+public class CarForRepair extends Car{
 
-    @Column(nullable = false)
-    private String color;
+    private String VIN;
     private String comments;
-    private String repairServices;
     @ManyToOne
     @JoinColumn(name = "car_repair_center_id",referencedColumnName = "id")
     private CarRepairCenter carRepairCenter;
+
+
 }
