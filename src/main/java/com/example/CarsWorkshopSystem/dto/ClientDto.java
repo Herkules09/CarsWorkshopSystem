@@ -36,4 +36,14 @@ public class ClientDto {
     private String address;
     private String historyOfOrders;
     private List<Protocol> protocols;
+
+    public ClientDto(String name, String surname, String email, String password, String phoneNumber, LocalDate dateOfBirth, String address) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+    }
 }

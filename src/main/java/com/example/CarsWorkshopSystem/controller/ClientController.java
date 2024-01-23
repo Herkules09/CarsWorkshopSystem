@@ -1,5 +1,6 @@
 package com.example.CarsWorkshopSystem.controller;
 
+import ch.qos.logback.core.net.server.ClientVisitor;
 import com.example.CarsWorkshopSystem.dto.ClientDto;
 import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.service.ClientService;
@@ -7,13 +8,13 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
+@RequestMapping("clients")
 public class ClientController {
 
     private ClientService clientService;
@@ -55,11 +56,60 @@ public class ClientController {
         return "redirect:/registerClient?success";
     }
 
-    @GetMapping("/clients")
-    public String clients(Model model){
+    @GetMapping("")
+    public String showAllClients(Model model){
         List<ClientDto> clients=clientService.findAllClients();
         model.addAttribute("clients",clients);
         return "clients";
+    }
+
+    @GetMapping("/{id}")
+    public Client findClientById(@PathVariable("id") Long id){
+        return clientService.findById(id);
+    }
+
+    @GetMapping("/editClient/{clientId}")
+    public String showEditForm(@PathVariable Long clientId, Model model) {
+
+        Client client = clientService.findById(clientId);
+        ClientDto clientDto=convertToDto(client);
+        model.addAttribute("client", clientDto);
+
+        return "editClient"; // Nazwa widoku dla formularza edycji
+    }
+
+    @PostMapping("/editClient/save")
+    public String saveEditedClient(@Valid @ModelAttribute("client") ClientDto editedClientDTO, BindingResult result, Model model) {
+
+        if (result.hasErrors()) {
+            model.addAttribute("client", editedClientDTO);
+            return "/editClient";
+        }
+        clientService.updateClient(editedClientDTO);
+
+        return "redirect:/clients";
+    }
+
+
+    @DeleteMapping("/deleteClient/{id}")
+    public String deleteClient(@PathVariable("id")Long id,Model model){
+        clientService.deleteClientById(id);
+        return "redirect:/clients";
+    }
+
+
+    private ClientDto convertToDto(Client client){
+        ClientDto clientDto = new ClientDto();
+        clientDto.setName(client.getName());
+        clientDto.setSurname(client.getSurname());
+        clientDto.setEmail(client.getEmail());
+        clientDto.setPassword(client.getPassword());
+        clientDto.setAddress(client.getAddress());
+        clientDto.setPhoneNumber(client.getPhoneNumber());
+        clientDto.setProtocols(client.getProtocols());
+        clientDto.setHistoryOfOrders(client.getHistoryOfOrders());
+
+        return clientDto;
     }
 
 }

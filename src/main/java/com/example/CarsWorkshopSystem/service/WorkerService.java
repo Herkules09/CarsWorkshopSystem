@@ -12,4 +12,5 @@ public interface WorkerService {
     void saveWorker(WorkerDto workerDto);
     Worker findByEmail(String email);
     List<WorkerDto> findAllWorkers();
+    void deleteWorkerById(Long id);
 }

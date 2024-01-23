@@ -5,10 +5,12 @@ import com.example.CarsWorkshopSystem.dto.ClientDto;
 import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.repository.ClientRepository;
 import com.example.CarsWorkshopSystem.service.ClientService;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 
@@ -50,6 +52,32 @@ public class ClientServiceImpl implements ClientService {
         return clients.stream().map((client) -> mapToClientDto(client)).collect(Collectors.toList());
     }
 
+
+    @Override
+    public void updateClient(ClientDto clientDTO) {
+        Client client= new Client();
+        client.setName(clientDTO.getName());
+        client.setSurname(clientDTO.getSurname());
+        client.setEmail(clientDTO.getEmail());
+        client.setPhoneNumber(clientDTO.getPhoneNumber());
+        client.setDateOfBirth(clientDTO.getDateOfBirth());
+        client.setAddress(clientDTO.getAddress());
+        client.setHistoryOfOrders(clientDTO.getHistoryOfOrders());
+        client.setProtocols(clientDTO.getProtocols());
+        client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        clientRepository.save(client);
+    }
+
+    @Override
+    public void deleteClientById(Long id) {
+        clientRepository.deleteById(id);
+    }
+
+    @Override
+    public Client findById(Long id) {
+        return clientRepository.findById(id).get();
+    }
+
     private ClientDto mapToClientDto(Client client){
         ClientDto clientDTO = new ClientDto();
         clientDTO.setName(client.getName());
@@ -62,4 +90,6 @@ public class ClientServiceImpl implements ClientService {
         clientDTO.setProtocols(client.getProtocols());
         return clientDTO;
     }
+
+
 }

@@ -46,12 +46,6 @@ public class WorkerServiceImpl implements WorkerService {
         newWorker.setWorkerRoles(Arrays.asList(adminRole));
         workerRepository.save(newWorker);
 
-//        // Sprawdzamy, czy pracownik ma rolę ADMIN.
-//        // Jeśli nie, nie zapisujemy pracownika.
-//        if (workerDto.getWorkerRoles().contains("ADMIN")) {
-//            worker.setWorkerRoles(List.of(adminRole));
-//            workerRepository.save(worker);
-//        }
     }
 
     private WorkerRole createAdminRole() {
@@ -59,6 +53,7 @@ public class WorkerServiceImpl implements WorkerService {
         adminRole.setName("ADMIN");
         return workerRoleRepository.save(adminRole);
     }
+
     @Override
     public Worker findByEmail(String email) {
         return workerRepository.findByEmail(email);
@@ -70,6 +65,15 @@ public class WorkerServiceImpl implements WorkerService {
         return workers.stream()
                 .map(this::convertToDto)
                 .collect(Collectors.toList());
+    }
+
+    @Override
+    public void deleteWorkerById(Long id) {
+        if(workerRepository.existsById(id)){
+            workerRepository.deleteById(id);
+        }else{
+            throw new IllegalArgumentException("Worker with id: "+id+" not found");
+        }
     }
 
     private WorkerDto convertToDto(Worker worker) {
