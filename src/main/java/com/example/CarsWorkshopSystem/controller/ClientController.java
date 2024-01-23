@@ -101,6 +101,7 @@ public class ClientController {
     @PostMapping("/addClient")
     public String addClient(){
         Client client = new Client("Adam","Kowalski","adam@wp.pl","123123123", LocalDate.now(),"Katowice 12");
+        clientService.saveClient(convertToDto(client));
         return "redirect:/clients";
     }
 
