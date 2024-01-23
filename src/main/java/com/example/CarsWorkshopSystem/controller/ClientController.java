@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -94,6 +95,12 @@ public class ClientController {
     @DeleteMapping("/deleteClient/{id}")
     public String deleteClient(@PathVariable("id")Long id,Model model){
         clientService.deleteClientById(id);
+        return "redirect:/clients";
+    }
+
+    @PostMapping("/addClient")
+    public String addClient(){
+        Client client = new Client("Adam","Kowalski","adam@wp.pl","123123123", LocalDate.now(),"Katowice 12");
         return "redirect:/clients";
     }
 
