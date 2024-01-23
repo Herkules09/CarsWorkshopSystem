@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Controller
@@ -54,6 +55,15 @@ public class WorkerController {
 
         workerService.saveWorker(workerDTO);
         return "redirect:/registerWorker?success";
+    }
+
+
+    @PostMapping("/addWorker")
+    public String addWorker(){
+        WorkerDto workerDto = new WorkerDto("Jarek","Taki","jark@gmail.com","123456789","4321",
+                LocalDate.now(),"Karpacz 12");
+        workerService.saveWorker(workerDto);
+        return "redirect:/workers";
     }
 
     @GetMapping("")

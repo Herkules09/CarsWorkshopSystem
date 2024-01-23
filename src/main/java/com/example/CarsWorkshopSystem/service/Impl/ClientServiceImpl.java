@@ -5,12 +5,10 @@ import com.example.CarsWorkshopSystem.dto.ClientDto;
 import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.repository.ClientRepository;
 import com.example.CarsWorkshopSystem.service.ClientService;
-import jakarta.persistence.EntityNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
+
 import java.util.stream.Collectors;
 
 
@@ -18,11 +16,11 @@ import java.util.stream.Collectors;
 public class ClientServiceImpl implements ClientService {
 
     private ClientRepository clientRepository;
-    private PasswordEncoder passwordEncoder;
 
-    public ClientServiceImpl(ClientRepository clientRepository, PasswordEncoder passwordEncoder) {
+
+    public ClientServiceImpl(ClientRepository clientRepository) {
         this.clientRepository = clientRepository;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Override
@@ -36,7 +34,7 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getAddress());
         client.setHistoryOfOrders(clientDTO.getHistoryOfOrders());
         client.setProtocols(clientDTO.getProtocols());
-        client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        client.setPassword((clientDTO.getPassword()));
         clientRepository.save(client);
 
     }
@@ -64,7 +62,7 @@ public class ClientServiceImpl implements ClientService {
         client.setAddress(clientDTO.getAddress());
         client.setHistoryOfOrders(clientDTO.getHistoryOfOrders());
         client.setProtocols(clientDTO.getProtocols());
-        client.setPassword(passwordEncoder.encode(clientDTO.getPassword()));
+        client.setPassword((clientDTO.getPassword()));
         clientRepository.save(client);
     }
 

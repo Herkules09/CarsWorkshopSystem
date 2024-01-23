@@ -6,7 +6,6 @@ import com.example.CarsWorkshopSystem.model.WorkerRole;
 import com.example.CarsWorkshopSystem.repository.WorkerRepository;
 import com.example.CarsWorkshopSystem.repository.WorkerRoleRepository;
 import com.example.CarsWorkshopSystem.service.WorkerService;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -18,12 +17,12 @@ public class WorkerServiceImpl implements WorkerService {
 
     private final WorkerRepository workerRepository;
     private final WorkerRoleRepository workerRoleRepository;
-    private final PasswordEncoder passwordEncoder;
 
-    public WorkerServiceImpl(WorkerRepository workerRepository, WorkerRoleRepository workerRoleRepository, PasswordEncoder passwordEncoder) {
+
+    public WorkerServiceImpl(WorkerRepository workerRepository, WorkerRoleRepository workerRoleRepository) {
         this.workerRepository = workerRepository;
         this.workerRoleRepository = workerRoleRepository;
-        this.passwordEncoder = passwordEncoder;
+
     }
 
     @Override
@@ -37,7 +36,7 @@ public class WorkerServiceImpl implements WorkerService {
         newWorker.setAddress(workerDto.getAddress());
         newWorker.setDateOfStartJob(workerDto.getDateOfStartJob());
         newWorker.setSalary(workerDto.getSalary());
-        newWorker.setPassword(passwordEncoder.encode(workerDto.getPassword()));
+        newWorker.setPassword((workerDto.getPassword()));
 
         WorkerRole adminRole = workerRoleRepository.findByName("ADMIN");
         if (adminRole == null) {

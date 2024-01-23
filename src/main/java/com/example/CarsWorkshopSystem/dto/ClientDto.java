@@ -46,4 +46,7 @@ public class ClientDto {
         this.dateOfBirth = dateOfBirth;
         this.address = address;
     }
+
+
+
 }
