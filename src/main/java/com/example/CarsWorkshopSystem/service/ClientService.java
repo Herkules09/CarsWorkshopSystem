@@ -9,11 +9,12 @@ import java.util.Optional;
 
 public interface ClientService {
 
-    void saveClient(ClientDto clientDTO);
+    void saveClient(Client client);
     Client findByEmail(String email);
-    List<ClientDto> findAllClients();
-    void updateClient(ClientDto clientDto);
+    List<Client> findAllClients();
+    void updateClient(Client client);
     void deleteClientById(Long id);
     Client findById(Long id);
+    Boolean isClientExist(Client client);
 
 }

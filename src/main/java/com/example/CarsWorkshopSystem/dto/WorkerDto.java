@@ -4,15 +4,14 @@ import com.example.CarsWorkshopSystem.model.Worker;
 import com.example.CarsWorkshopSystem.model.WorkerRole;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
+@Data
+@Builder
 @Getter
 @Setter
 @AllArgsConstructor

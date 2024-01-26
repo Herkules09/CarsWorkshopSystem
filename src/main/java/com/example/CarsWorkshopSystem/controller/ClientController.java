@@ -14,8 +14,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
-@Controller
-@RequestMapping("clients")
+@RestController
 public class ClientController {
 
     private ClientService clientService;
@@ -41,30 +40,30 @@ public class ClientController {
     }
 
     @PostMapping("/registerClient/save")
-    public String registrationClient(@Valid @ModelAttribute("client") ClientDto clientDTO, BindingResult result, Model model){
-        Client existingClient = clientService.findByEmail(clientDTO.getEmail());
+    public String registrationClient(@Valid @ModelAttribute("client") Client client, BindingResult result, Model model){
+        Client existingClient = clientService.findByEmail(client.getEmail());
 
         if(existingClient !=null && existingClient.getEmail() !=null && !existingClient.getEmail().isEmpty()){
             result.rejectValue("email",null,"There is already an account registered with the same email");
         }
 
         if (result.hasErrors()){
-            model.addAttribute("client",clientDTO);
-            return "/registerClient";
+            model.addAttribute("client",client);
+            return "registerClient";
         }
 
-        clientService.saveClient(clientDTO);
+        clientService.saveClient(client);
         return "redirect:/registerClient?success";
     }
 
-    @GetMapping("")
+    @GetMapping("/clients")
     public String showAllClients(Model model){
-        List<ClientDto> clients=clientService.findAllClients();
+        List<Client> clients=clientService.findAllClients();
         model.addAttribute("clients",clients);
         return "clients";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("/clients/{id}")
     public Client findClientById(@PathVariable("id") Long id){
         return clientService.findById(id);
     }
@@ -73,20 +72,19 @@ public class ClientController {
     public String showEditForm(@PathVariable Long clientId, Model model) {
 
         Client client = clientService.findById(clientId);
-        ClientDto clientDto=convertToDto(client);
-        model.addAttribute("client", clientDto);
+        model.addAttribute("client", client);
 
         return "editClient"; // Nazwa widoku dla formularza edycji
     }
 
     @PostMapping("/editClient/save")
-    public String saveEditedClient(@Valid @ModelAttribute("client") ClientDto editedClientDTO, BindingResult result, Model model) {
+    public String saveEditedClient(@Valid @ModelAttribute("client") Client editedClient, BindingResult result, Model model) {
 
         if (result.hasErrors()) {
-            model.addAttribute("client", editedClientDTO);
-            return "/editClient";
+            model.addAttribute("client", editedClient);
+            return "editClient";
         }
-        clientService.updateClient(editedClientDTO);
+        clientService.updateClient(editedClient);
 
         return "redirect:/clients";
     }
@@ -99,9 +97,7 @@ public class ClientController {
     }
 
     @PostMapping("/addClient")
-    public String addClient(){
-        ClientDto client = new ClientDto("Adam","Kowalski","adam@wp.pl","1234","123123123",LocalDate.now(),"Katowice 1");
-        client.setPassword("1234");
+    public String addClient(@ModelAttribute("client") Client client){
         clientService.saveClient(client);
         return "redirect:/clients";
     }

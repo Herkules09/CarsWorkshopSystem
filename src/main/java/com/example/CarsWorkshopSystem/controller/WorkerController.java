@@ -1,22 +1,19 @@
 package com.example.CarsWorkshopSystem.controller;
 
 import com.example.CarsWorkshopSystem.dto.WorkerDto;
+import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.model.Worker;
 import com.example.CarsWorkshopSystem.service.WorkerService;
 import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDate;
 import java.util.List;
 
-@Controller
-@RequestMapping("workers")
+@RestController
 public class WorkerController {
 
     private WorkerService workerService;
@@ -35,40 +32,46 @@ public class WorkerController {
 
     @GetMapping("/registerWorker")
     public String showRegistrationFormForClients(Model model) {
-        WorkerDto worker = new WorkerDto();
+        Worker worker = new Worker();
         model.addAttribute("worker", worker);
         return "registerWorker";
     }
 
     @PostMapping("/registerWorker/save")
-    public String registrationWorker(@Valid @ModelAttribute("worker") WorkerDto workerDTO, BindingResult result, Model model){
-        Worker existingWorker = workerService.findByEmail(workerDTO.getEmail());
+    public String registrationWorker(@Valid @ModelAttribute("worker") Worker worker, BindingResult result, Model model){
+        Worker existingWorker = workerService.findByEmail(worker.getEmail());
 
         if(existingWorker !=null && existingWorker.getEmail() !=null && !existingWorker.getEmail().isEmpty()){
             result.rejectValue("email",null,"There is already an account registered with the same email");
         }
 
         if (result.hasErrors()){
-            model.addAttribute("worker",workerDTO);
-            return "/registerWorker";
+            model.addAttribute("worker",worker);
+            return "registerWorker";
         }
 
-        workerService.saveWorker(workerDTO);
+        workerService.saveWorker(worker);
         return "redirect:/registerWorker?success";
     }
 
 
     @PostMapping("/addWorker")
-    public String addWorker(){
-        WorkerDto workerDto = new WorkerDto("Jarek","Taki","jark@gmail.com","123456789","4321",
-                LocalDate.now(),"Karpacz 12");
-        workerService.saveWorker(workerDto);
+    public String addWorker(@ModelAttribute("worker")Worker worker){
+       // Worker worker = new Worker("Jarek","Taki","jark@gmail.com","123456789","4321", LocalDate.of(1990,10,12),"Karpacz 12",LocalDate.now(),4000.0);
+        workerService.saveWorker(worker);
         return "redirect:/workers";
     }
 
-    @GetMapping("")
+
+    @GetMapping("/clients/{id}")
+    public Worker findWorkerById(@PathVariable("id") Long id){
+        return workerService.findWorkerById(id);
+    }
+
+
+    @GetMapping("/workers")
     public String showAllWorkers(Model model){
-        List<WorkerDto> workers=workerService.findAllWorkers();
+        List<Worker> workers=workerService.findAllWorkers();
         model.addAttribute("workers",workers);
         return "workers";
     }

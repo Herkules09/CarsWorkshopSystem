@@ -24,17 +24,7 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public void saveClient(ClientDto clientDTO) {
-        Client client= new Client();
-        client.setName(clientDTO.getName());
-        client.setSurname(clientDTO.getSurname());
-        client.setEmail(clientDTO.getEmail());
-        client.setPhoneNumber(clientDTO.getPhoneNumber());
-        client.setDateOfBirth(clientDTO.getDateOfBirth());
-        client.setAddress(clientDTO.getAddress());
-        client.setHistoryOfOrders(clientDTO.getHistoryOfOrders());
-        client.setProtocols(clientDTO.getProtocols());
-        client.setPassword((clientDTO.getPassword()));
+    public void saveClient(Client client) {
         clientRepository.save(client);
 
     }
@@ -45,25 +35,21 @@ public class ClientServiceImpl implements ClientService {
     }
 
     @Override
-    public List<ClientDto> findAllClients() {
-        List<Client>clients = clientRepository.findAll();
-        return clients.stream().map((client) -> mapToClientDto(client)).collect(Collectors.toList());
+    public List<Client> findAllClients() {
+       return clientRepository.findAll();
     }
 
 
     @Override
-    public void updateClient(ClientDto clientDTO) {
-        Client client= new Client();
-        client.setName(clientDTO.getName());
-        client.setSurname(clientDTO.getSurname());
-        client.setEmail(clientDTO.getEmail());
-        client.setPhoneNumber(clientDTO.getPhoneNumber());
-        client.setDateOfBirth(clientDTO.getDateOfBirth());
-        client.setAddress(clientDTO.getAddress());
-        client.setHistoryOfOrders(clientDTO.getHistoryOfOrders());
-        client.setProtocols(clientDTO.getProtocols());
-        client.setPassword((clientDTO.getPassword()));
+    public void updateClient(Client client) {
         clientRepository.save(client);
+    }
+
+
+    @Override
+    public Boolean isClientExist(Client client) {
+        Client existingClient= clientRepository.findByEmail(client.getEmail());
+        return existingClient != null;
     }
 
     @Override

@@ -40,7 +40,6 @@ public class Worker {
     private String address;
     @Column(nullable = false)
     private LocalDate dateOfStartJob;
-    @Column(nullable = false)
     private Double salary;
     @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
     @JoinTable(
@@ -63,4 +62,15 @@ public class Worker {
     private Role role = Role.WORKER;
 
 
+    public Worker(String name, String surname, String email, String phoneNumber, String password, LocalDate dateOfBirth, String address, LocalDate dateOfStartJob,Double salary) {
+        this.name = name;
+        this.surname = surname;
+        this.email = email;
+        this.phoneNumber = phoneNumber;
+        this.password = password;
+        this.dateOfBirth = dateOfBirth;
+        this.address = address;
+        this.dateOfStartJob = dateOfStartJob;
+        this.salary = salary;
+    }
 }

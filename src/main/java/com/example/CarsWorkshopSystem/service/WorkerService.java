@@ -9,8 +9,9 @@ import java.util.List;
 
 public interface WorkerService {
 
-    void saveWorker(WorkerDto workerDto);
+    void saveWorker(Worker worker);
     Worker findByEmail(String email);
-    List<WorkerDto> findAllWorkers();
+    List<Worker> findAllWorkers();
     void deleteWorkerById(Long id);
+    Worker findWorkerById(Long id);
 }

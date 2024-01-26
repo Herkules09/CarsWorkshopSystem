@@ -26,25 +26,8 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public void saveWorker(WorkerDto workerDto) {
-        Worker newWorker = new Worker();
-        newWorker.setName(workerDto.getName());
-        newWorker.setSurname(workerDto.getSurname());
-        newWorker.setEmail(workerDto.getEmail());
-        newWorker.setPhoneNumber(workerDto.getPhoneNumber());
-        newWorker.setDateOfBirth(workerDto.getDateOfBirth());
-        newWorker.setAddress(workerDto.getAddress());
-        newWorker.setDateOfStartJob(workerDto.getDateOfStartJob());
-        newWorker.setSalary(workerDto.getSalary());
-        newWorker.setPassword((workerDto.getPassword()));
-
-        WorkerRole adminRole = workerRoleRepository.findByName("ADMIN");
-        if (adminRole == null) {
-            adminRole = createAdminRole();
-        }
-        newWorker.setWorkerRoles(Arrays.asList(adminRole));
-        workerRepository.save(newWorker);
-
+    public void saveWorker(Worker worker) {
+        workerRepository.save(worker);
     }
 
     private WorkerRole createAdminRole() {
@@ -59,11 +42,13 @@ public class WorkerServiceImpl implements WorkerService {
     }
 
     @Override
-    public List<WorkerDto> findAllWorkers() {
-        List<Worker> workers = workerRepository.findAll();
-        return workers.stream()
-                .map(this::convertToDto)
-                .collect(Collectors.toList());
+    public List<Worker> findAllWorkers() {
+        return workerRepository.findAll();
+    }
+
+    @Override
+    public Worker findWorkerById(Long id) {
+        return workerRepository.findById(id).get();
     }
 
     @Override
