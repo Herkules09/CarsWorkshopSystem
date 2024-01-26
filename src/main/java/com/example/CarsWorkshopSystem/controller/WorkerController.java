@@ -63,7 +63,7 @@ public class WorkerController {
     }
 
 
-    @GetMapping("/clients/{id}")
+    @GetMapping("/workers/{id}")
     public Worker findWorkerById(@PathVariable("id") Long id){
         return workerService.findWorkerById(id);
     }
