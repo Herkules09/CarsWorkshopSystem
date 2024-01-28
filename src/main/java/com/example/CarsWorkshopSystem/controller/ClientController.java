@@ -15,6 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
+@CrossOrigin
 public class ClientController {
 
     private ClientService clientService;
@@ -40,7 +41,7 @@ public class ClientController {
     }
 
     @PostMapping("/registerClient/save")
-    public String registrationClient(@Valid @ModelAttribute("client") Client client, BindingResult result, Model model){
+    public String registrationClient(@Valid @RequestBody Client client, BindingResult result, Model model){
         Client existingClient = clientService.findByEmail(client.getEmail());
 
         if(existingClient !=null && existingClient.getEmail() !=null && !existingClient.getEmail().isEmpty()){
@@ -51,7 +52,6 @@ public class ClientController {
             model.addAttribute("client",client);
             return "registerClient";
         }
-
         clientService.saveClient(client);
         return "redirect:/registerClient?success";
     }
@@ -96,10 +96,11 @@ public class ClientController {
         return "redirect:/clients";
     }
 
+
     @PostMapping("/addClient")
-    public String addClient(@ModelAttribute("client") Client client){
+    public String addClient(@RequestBody Client client){
         clientService.saveClient(client);
-        return "redirect:/clients";
+        return "TEST";
     }
 
 
