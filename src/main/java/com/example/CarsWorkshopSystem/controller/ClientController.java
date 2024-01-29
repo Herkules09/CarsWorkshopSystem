@@ -1,18 +1,16 @@
 package com.example.CarsWorkshopSystem.controller;
 
-import ch.qos.logback.core.net.server.ClientVisitor;
 import com.example.CarsWorkshopSystem.dto.ClientDto;
 import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.service.ClientService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
 @CrossOrigin
@@ -32,6 +30,25 @@ public class ClientController {
     }
 
 
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public String showWelcomePage(ModelMap model, @RequestBody Map<String, String> body){
+        String name = body.get("name");
+        String password = body.get("password");
+
+        Client client = clientService.findByEmail(name);
+
+        if (client == null || !client.getPassword().equals(password)) {
+            model.put("email", "Invalid email or password");
+            return "login";
+        }
+        else {
+            model.put("name", name);
+            model.put("password", password);
+
+            return "redirect:/login?success";
+        }
+
+    }
 
     @GetMapping("/registerClient")
     public String showRegistrationFormForClients(Model model) {
