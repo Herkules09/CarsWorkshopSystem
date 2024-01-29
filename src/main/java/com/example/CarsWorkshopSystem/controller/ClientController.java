@@ -31,7 +31,7 @@ public class ClientController {
 
 
     @RequestMapping(value="/login", method = RequestMethod.POST)
-    public String showWelcomePage(ModelMap model, @RequestBody Map<String, String> body){
+    public String showLoginClient(ModelMap model, @RequestBody Map<String, String> body){
         String name = body.get("name");
         String password = body.get("password");
 
