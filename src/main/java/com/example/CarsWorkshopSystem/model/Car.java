@@ -35,6 +35,10 @@ public abstract class Car {
     private Set<CarForRepair> carsForRepair = new HashSet<>();
 
 
-
-
+    public Car(String model, String mark, LocalDate dateOfProduction, Set<CarForRepair> carsForRepair) {
+        this.model = model;
+        this.mark = mark;
+        this.dateOfProduction = dateOfProduction;
+        this.carsForRepair = carsForRepair;
+    }
 }

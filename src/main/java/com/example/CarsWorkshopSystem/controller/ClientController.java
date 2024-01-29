@@ -117,7 +117,7 @@ public class ClientController {
     @PostMapping("/addClient")
     public String addClient(@RequestBody Client client){
         clientService.saveClient(client);
-        return "TEST";
+        return "redirect:/addClient?success";
     }
 
 
