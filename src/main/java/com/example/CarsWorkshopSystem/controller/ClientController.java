@@ -1,20 +1,19 @@
 package com.example.CarsWorkshopSystem.controller;
 
-import ch.qos.logback.core.net.server.ClientVisitor;
 import com.example.CarsWorkshopSystem.dto.ClientDto;
 import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.service.ClientService;
 import jakarta.validation.Valid;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
 @RestController
+@CrossOrigin
 public class ClientController {
 
     private ClientService clientService;
@@ -31,6 +30,25 @@ public class ClientController {
     }
 
 
+    @RequestMapping(value="/login", method = RequestMethod.POST)
+    public String showLoginClient(ModelMap model, @RequestBody Map<String, String> body){
+        String name = body.get("name");
+        String password = body.get("password");
+
+        Client client = clientService.findByEmail(name);
+
+        if (client == null || !client.getPassword().equals(password)) {
+            model.put("email", "Invalid email or password");
+            return "login";
+        }
+        else {
+            model.put("name", name);
+            model.put("password", password);
+
+            return "redirect:/login?success";
+        }
+
+    }
 
     @GetMapping("/registerClient")
     public String showRegistrationFormForClients(Model model) {
@@ -40,7 +58,7 @@ public class ClientController {
     }
 
     @PostMapping("/registerClient/save")
-    public String registrationClient(@Valid @ModelAttribute("client") Client client, BindingResult result, Model model){
+    public String registrationClient(@Valid @RequestBody Client client, BindingResult result, Model model){
         Client existingClient = clientService.findByEmail(client.getEmail());
 
         if(existingClient !=null && existingClient.getEmail() !=null && !existingClient.getEmail().isEmpty()){
@@ -51,7 +69,6 @@ public class ClientController {
             model.addAttribute("client",client);
             return "registerClient";
         }
-
         clientService.saveClient(client);
         return "redirect:/registerClient?success";
     }
@@ -96,10 +113,11 @@ public class ClientController {
         return "redirect:/clients";
     }
 
+
     @PostMapping("/addClient")
-    public String addClient(@ModelAttribute("client") Client client){
+    public String addClient(@RequestBody Client client){
         clientService.saveClient(client);
-        return "redirect:/clients";
+        return "TEST";
     }
 
 
