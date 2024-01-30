@@ -41,4 +41,10 @@ public abstract class Car {
         this.dateOfProduction = dateOfProduction;
         this.carsForRepair = carsForRepair;
     }
+
+    public Car(String mark, String model, LocalDate dateOfProduction){
+        this.mark=mark;
+        this.model=model;
+        this.dateOfProduction=dateOfProduction;
+    }
 }
