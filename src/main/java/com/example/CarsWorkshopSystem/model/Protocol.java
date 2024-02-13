@@ -6,6 +6,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @NoArgsConstructor
@@ -17,6 +19,7 @@ public class Protocol {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String information;
+    private LocalDate dateOfCreate;
     @ManyToOne
     @JoinColumn(name = "worker_id")
     private Worker worker;
@@ -24,5 +27,12 @@ public class Protocol {
     @JoinColumn(name = "client_id")
     private Client client;
 
+    public Protocol(String information, LocalDate dateOfCreate, Worker worker, Client client){
+        this.information = information;
+        this.dateOfCreate = dateOfCreate;
+        this.worker = worker;
+        this.client = client;
+
+    }
 
 }
