@@ -17,6 +17,7 @@ import java.time.LocalDate;
 @Entity
 public class CarForRepair extends Car{
 
+
     private String VIN;
     private String comments;
     @ManyToOne

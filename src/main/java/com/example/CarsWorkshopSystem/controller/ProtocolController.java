@@ -1,6 +1,9 @@
 package com.example.CarsWorkshopSystem.controller;
 
+import com.example.CarsWorkshopSystem.model.CarForReplace;
+import com.example.CarsWorkshopSystem.model.Client;
 import com.example.CarsWorkshopSystem.model.Protocol;
+import com.example.CarsWorkshopSystem.model.Worker;
 import com.example.CarsWorkshopSystem.service.ProtocolService;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -16,15 +19,15 @@ public class ProtocolController {
         this.protocolService = protocolService;
     }
 
-    @GetMapping("/protocol")
-    public String showAllProtocol(Model model){
-        List<Protocol> protocol=protocolService.findAllProtocol();
-        model.addAttribute("protocol",protocol);
-        return "protocol";
+    @GetMapping("/protocol/{id}")
+    public Protocol showAllProtocol(@PathVariable("id") Long id){
+        Protocol protocol = protocolService.findById(id);
+        return protocol;
     }
 
     @PostMapping("/addProtocol")
     public String addProtocol(@RequestBody Protocol protocol){
+
         protocolService.saveProtocol(protocol);
         return "redirect:/protocol?success";
     }

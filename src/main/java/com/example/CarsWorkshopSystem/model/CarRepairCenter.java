@@ -1,5 +1,6 @@
 package com.example.CarsWorkshopSystem.model;
 
+//import com.example.CarsWorkshopSystem.repository.CarForReplace;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

@@ -19,10 +19,11 @@ public class CarForRentController {
     }
 
     @GetMapping("/carForRents")
-    public List<CarForRent> showAllCarForRent(Model model){
+    public String showAllCarForRent(Model model){
+
         List<CarForRent> carForRents=carForRentService.findAllCarForRents();
         model.addAttribute("carForRents",carForRents);
-        return carForRents;
+        return "carForRents";
     }
 
     @PostMapping("/addCarForRent")

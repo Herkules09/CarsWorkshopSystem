@@ -1,5 +1,6 @@
 package com.example.CarsWorkshopSystem.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,9 +22,11 @@ public class Protocol {
     private String information;
     private LocalDate dateOfCreate;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "worker_id")
     private Worker worker;
     @ManyToOne
+    @JsonIgnore
     @JoinColumn(name = "client_id")
     private Client client;
 

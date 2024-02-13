@@ -16,11 +16,8 @@ public class CarForReplaceController {
     public CarForReplaceController(CarForReplaceService carForReplaceService) { this.carForReplaceService = carForReplaceService; }
 
     @GetMapping("/carForReplace")
-    public String showAllCarForRent(Model model){
-
-        List<CarForReplace> carForReplace=carForReplaceService.findAllCarForReplace();
-        model.addAttribute("carForReplace",carForReplace);
-        return "carForReplace";
+    public List<CarForReplace> showAllCarForRent(){
+        return carForReplaceService.findAllCarForReplace();
     }
 
     @PostMapping("/addCarForReplace")

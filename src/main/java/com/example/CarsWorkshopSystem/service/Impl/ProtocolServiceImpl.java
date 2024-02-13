@@ -1,10 +1,10 @@
 package com.example.CarsWorkshopSystem.service.Impl;
 
 import com.example.CarsWorkshopSystem.model.Client;
-import com.example.CarsWorkshopSystem.model.Protocol;
-import com.example.CarsWorkshopSystem.model.Worker;
 import com.example.CarsWorkshopSystem.repository.ProtocolRepository;
 import com.example.CarsWorkshopSystem.service.ProtocolService;
+import com.example.CarsWorkshopSystem.model.Protocol;
+import com.example.CarsWorkshopSystem.model.Worker;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class ProtocolServiceImpl implements ProtocolService {
 
-    private ProtocolRepository protocolRepository;
+    private final ProtocolRepository protocolRepository;
 
     public ProtocolServiceImpl(ProtocolRepository protocolRepository){
         this.protocolRepository = protocolRepository;
